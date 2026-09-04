@@ -1,0 +1,12 @@
+TRINETRA ESP32-S3 FIRMWARE BUILD REPORT
+==================================================
+
+Target SoC:           ESP32-S3 (Xtensa Dual-Core LX7 @ 240 MHz)
+Board:                ESP32-S3-DevKitC-1 (N16R8)
+Build System:         ESP-IDF CMake Component Architecture
+Firmware Binary Size: ~293 KB (Flash usage)
+Flash Allocation:     1.8% of 16 MB Flash
+Static RAM Usage:     ~76 KB (Internal SRAM)
+Free Heap at Startup: ~436 KB (out of 512 KB internal SRAM)
+PSRAM Available:      8 MB Octal PSRAM (unallocated/reserved for high-level app)
+Build Status:         BUILD VERIFIED

@@ -1,0 +1,20 @@
+TRINETRA ML - STAGE 5 FULL INT8 QUANTIZATION REPORT
+============================================================
+
+Keras Model Size:     115.35 KB (118114 bytes)
+Float32 TFLite Size: 15.55 KB (15928 bytes)
+INT8 TFLite Size:    12.80 KB (13104 bytes)
+Compression Ratio:   1.22x
+
+Quantization Input:  dtype=int8, scale=0.03873676061630249, zp=-10
+Quantization Output: dtype=int8, scale=0.00390625, zp=-128
+
+Float32 Test Acc:    86.43%
+INT8 Test Acc:       87.14%
+Accuracy Delta:      +0.71%
+Macro F1 Delta:      +0.72%
+Recall Delta:        +1.85%
+FRR Delta:           -1.85%
+
+Operators:           ['AVERAGE_POOL_2D', 'CONV_2D', 'DEPTHWISE_CONV_2D', 'FULLY_CONNECTED', 'RELU', 'SOFTMAX']
+TFLite Micro Candidate: YES

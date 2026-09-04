@@ -1,0 +1,12 @@
+TRINETRA STAGE 9B — REAL VS SIMULATED PROVENANCE REPORT
+=======================================================
+
+1. Provenance Integrity Rules:
+   - source = 'esp32'     -> Tagged as REAL ESP32 TELEMETRY
+   - source = 'simulated' -> Tagged as SIMULATED TELEMETRY
+
+2. Provenance Audit Results:
+   - Simulated profiles correctly retain 'simulated' tag: PASS
+   - Ingested ESP32 packets transition to 'esp32' tag:    PASS
+   - UI / SLM displays transparent provenance badge:     PASS
+   - Zero False Hardware Claims:                         VERIFIED

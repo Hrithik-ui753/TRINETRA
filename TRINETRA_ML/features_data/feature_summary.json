@@ -1,0 +1,26 @@
+{
+  "sample_rate": 16000,
+  "target_duration_sec": 1.0,
+  "target_samples": 16000,
+  "win_length_ms": 25.0,
+  "hop_length_ms": 10.0,
+  "n_mels": 40,
+  "n_mfcc": 13,
+  "input_tensor_shape": [
+    98,
+    13
+  ],
+  "train_samples": 1117,
+  "val_samples": 140,
+  "test_samples": 140,
+  "normalized_stats": {
+    "train_mean": 4.439030817593448e-05,
+    "train_std": 1.000014066696167,
+    "train_min": -6.010298728942871,
+    "train_max": 6.978890895843506,
+    "val_mean": 0.05367177352309227,
+    "val_std": 0.8939013481140137,
+    "test_mean": 0.005563027691096067,
+    "test_std": 0.9293326735496521
+  }
+}

@@ -1,0 +1,270 @@
+{
+  "device_id": "TRINETRA-001",
+  "timestamp": "2026-09-01T08:43:04.610563+00:00",
+  "system": {
+    "status": {
+      "value": "NORMAL",
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "uptime_seconds": {
+      "value": 18452,
+      "unit": "s",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "free_heap_bytes": {
+      "value": 410000,
+      "unit": "bytes",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "cpu_usage_percent": {
+      "value": 28.5,
+      "unit": "%",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "cpu_temperature_c": {
+      "value": 42.1,
+      "unit": "C",
+      "source": "local_sensor",
+      "status": "simulated"
+    },
+    "firmware_version": {
+      "value": "1.0.0",
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "last_reboot": {
+      "value": "2026-09-01T08:00:00Z",
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    }
+  },
+  "communication": {
+    "wifi_status": {
+      "value": "CONNECTED",
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "signal_strength_dbm": {
+      "value": -61,
+      "unit": "dBm",
+      "source": "local_sensor",
+      "status": "simulated"
+    },
+    "server_status": {
+      "value": "CONNECTED",
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "last_communication_seconds": {
+      "value": 2,
+      "unit": "s",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "packet_loss_percent": {
+      "value": 0.2,
+      "unit": "%",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "communication_errors": {
+      "value": 0,
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    }
+  },
+  "audio": {
+    "mic_1": {
+      "value": "ACTIVE",
+      "unit": "",
+      "source": "local_sensor",
+      "status": "valid"
+    },
+    "mic_2": {
+      "value": "ACTIVE",
+      "unit": "",
+      "source": "local_sensor",
+      "status": "valid"
+    },
+    "sample_rate_hz": {
+      "value": 16000,
+      "unit": "Hz",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "channels": {
+      "value": 2,
+      "unit": "channels",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "vad_status": {
+      "value": "IDLE",
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "wake_word_status": {
+      "value": "READY",
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "last_wake_confidence": {
+      "value": 0.962,
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    }
+  },
+  "ml": {
+    "model": {
+      "value": "DS-CNN INT8",
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "model_size_bytes": {
+      "value": 13104,
+      "unit": "bytes",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "mfcc_latency_ms": {
+      "value": 2.636,
+      "unit": "ms",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "inference_latency_ms": {
+      "value": 0.146,
+      "unit": "ms",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "total_compute_latency_ms": {
+      "value": 2.783,
+      "unit": "ms",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "wake_threshold": {
+      "value": 0.85,
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "acwe": {
+      "value": "2-of-3",
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    },
+    "status": {
+      "value": "READY",
+      "unit": "",
+      "source": "firmware",
+      "status": "valid"
+    }
+  },
+  "environment": {
+    "temperature_c": {
+      "value": 29.1,
+      "unit": "C",
+      "source": "local_sensor",
+      "status": "simulated"
+    },
+    "humidity_percent": {
+      "value": 52.0,
+      "unit": "%",
+      "source": "local_sensor",
+      "status": "simulated"
+    },
+    "pressure_kpa": {
+      "value": null,
+      "unit": "kPa",
+      "source": "sensor",
+      "status": "unavailable"
+    }
+  },
+  "hardware": {
+    "door": {
+      "value": "CLOSED",
+      "unit": "",
+      "source": "local_sensor",
+      "status": "simulated"
+    },
+    "hatch": {
+      "value": "LOCKED",
+      "unit": "",
+      "source": "local_sensor",
+      "status": "simulated"
+    },
+    "vibration": {
+      "value": "NORMAL",
+      "unit": "",
+      "source": "local_sensor",
+      "status": "simulated"
+    }
+  },
+  "power": {
+    "voltage_v": {
+      "value": 5.02,
+      "unit": "V",
+      "source": "local_sensor",
+      "status": "simulated"
+    },
+    "current_ma": {
+      "value": 620,
+      "unit": "mA",
+      "source": "local_sensor",
+      "status": "simulated"
+    },
+    "power_w": {
+      "value": 3.11,
+      "unit": "W",
+      "source": "local_sensor",
+      "status": "simulated"
+    },
+    "battery_percent": {
+      "value": 78,
+      "unit": "%",
+      "source": "local_sensor",
+      "status": "simulated"
+    },
+    "charging": {
+      "value": true,
+      "unit": "",
+      "source": "local_sensor",
+      "status": "simulated"
+    },
+    "status": {
+      "value": "NORMAL",
+      "unit": "",
+      "source": "local_sensor",
+      "status": "simulated"
+    }
+  },
+  "faults": [],
+  "warnings": [],
+  "events": [
+    {
+      "event": "System initialized successfully",
+      "timestamp": "2026-09-01T08:43:04.610695+00:00"
+    },
+    {
+      "event": "Wake word detected (Confidence: 0.962)",
+      "timestamp": "2026-09-01T08:43:04.610701+00:00"
+    }
+  ]
+}

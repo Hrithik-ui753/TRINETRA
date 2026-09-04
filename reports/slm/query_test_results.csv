@@ -1,0 +1,24 @@
+test_id,device_id,query,detected_intent,detected_entity,expected_intent,response,intent_match,status
+1,TRINETRA-001,What is the machine temperature?,TEMPERATURE,temperature,TEMPERATURE,TRINETRA-001 is currently at 28.4°C.,True,PASS
+2,TRINETRA-001,Is the door closed?,DOOR,door,DOOR,Yes. The door is closed on TRINETRA-001.,True,PASS
+3,TRINETRA-001,What is the communication status?,COMMUNICATION,communication,COMMUNICATION,Wi-Fi and server communication are connected on TRINETRA-001.,True,PASS
+4,TRINETRA-001,What is the voltage?,VOLTAGE,voltage,VOLTAGE,TRINETRA-001 supply voltage is 5.02 V.,True,PASS
+5,TRINETRA-001,Is Wi-Fi connected?,WIFI,wifi,WIFI,TRINETRA-001 Wi-Fi is connected (signal: -61 dBm).,True,PASS
+6,TRINETRA-001,Are both microphones active?,MICROPHONE,microphone,MICROPHONE,Both microphones on TRINETRA-001 are ACTIVE and operational (16 kHz stereo).,True,PASS
+7,TRINETRA-001,What is the MFCC latency?,MFCC,mfcc,MFCC,TRINETRA-001 MFCC feature extraction latency is 2.636 ms.,True,PASS
+8,TRINETRA-001,What is the inference latency?,INFERENCE,inference,INFERENCE,TRINETRA-001 DS-CNN inference latency is 0.146 ms.,True,PASS
+9,TRINETRA-001,What is the wake word threshold?,WAKE_THRESHOLD,wake_threshold,WAKE_THRESHOLD,TRINETRA-001 wake-word detection threshold is 0.85 (ACWE confirmation: 2-of-3).,True,PASS
+10,TRINETRA-001,How much free memory is available?,MEMORY,memory,MEMORY,TRINETRA-001 has 410000 bytes (400.4 KB) of free internal memory available.,True,PASS
+11,TRINETRA-001,How long has the machine been running?,UPTIME,uptime,UPTIME,TRINETRA-001 has been operating continuously for 18452 seconds (5h 7m 32s).,True,PASS
+12,TRINETRA-001,Are there any faults?,FAULT,fault,FAULT,TRINETRA-001 reports 0 active faults or warnings. System health is normal.,True,PASS
+13,TRINETRA-001,Is the machine healthy?,HEALTH,health,HEALTH,Yes. TRINETRA-001 is healthy and operating normally.,True,PASS
+14,TRINETRA-001,Give me the complete status.,STATUS,status,STATUS,"Complete status for TRINETRA-001: Status is normal. Ambient Temp: 28.4°C, Battery: 78% (charging), Wi-Fi: connected. 0 active faults.",True,PASS
+15,TRINETRA-002,What is the machine temperature?,TEMPERATURE,temperature,TEMPERATURE,TRINETRA-002 is currently at 34.7°C.,True,PASS
+16,TRINETRA-002,Is the door closed?,DOOR,door,DOOR,No. The door is currently open on TRINETRA-002.,True,PASS
+17,TRINETRA-002,What is the voltage?,VOLTAGE,voltage,VOLTAGE,TRINETRA-002 supply voltage is 4.91 V.,True,PASS
+18,TRINETRA-002,Are there any faults?,FAULT,fault,FAULT,TRINETRA-002 diagnostics: MIC_02 low signal; Microphone 2 is reporting a low signal; Chamber door is currently OPEN.,True,PASS
+19,TRINETRA-003,What is the machine temperature?,TEMPERATURE,temperature,TEMPERATURE,TRINETRA-003 is currently at 24.8°C.,True,PASS
+20,TRINETRA-003,Is the door closed?,DOOR,door,DOOR,Yes. The door is closed on TRINETRA-003.,True,PASS
+21,TRINETRA-003,Is Wi-Fi connected?,WIFI,wifi,WIFI,TRINETRA-003 Wi-Fi is disconnected (signal: -95 dBm).,True,PASS
+22,TRINETRA-003,What is the battery health?,BATTERY_HEALTH,battery_health,BATTERY_HEALTH,Battery health data is unavailable for TRINETRA-003.,True,PASS
+23,TRINETRA-003,Turn off the power now.,ACTUATOR_COMMAND,actuator,ACTUATOR_COMMAND,Command rejected on TRINETRA-003. Stage 9 operates strictly as a read-only telemetry and diagnostic intelligence interface. Actuator controls are not permitted.,True,PASS

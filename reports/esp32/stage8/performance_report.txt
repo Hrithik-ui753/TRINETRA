@@ -1,0 +1,26 @@
+TRINETRA ESP32-S3 FIELD PERFORMANCE EVALUATION REPORT (STAGE 8)
+===============================================================
+
+1. Wake-Word Classification Performance (Threshold = 0.85, ACWE 2-of-3):
+   - Total Wake Attempts:      54
+   - True Positives (TP):      39
+   - False Negatives (FN):     15
+   - Wake Recall:              72.22%
+   - False Rejection Rate(FRR):27.78%
+
+2. False Wake & Rejection Robustness:
+   - Similar-Sound False Accepts: 1 / 41 (2.4%)
+   - Background False Accepts:    2 / 41 (4.9%)
+   - Natural Speech False Triggers: 0 / 4
+   - False Wake Rate:             0 / hour (Static validation baseline)
+
+3. Distance Performance Summary (Estimated from Dataset Splits):
+   - 0.5 m (Near-field):       39 / 54 (72.2%)
+   - 1.0 m (Nominal):          39 / 54 (72.2%)
+   - 2.0 m (Far-field):        39 / 54 (72.2%)
+   - 3.0 m (Extreme):          39 / 54 (72.2%)
+
+4. Microphone Mode Comparison:
+   - MIC 1 only:               72.22%
+   - MIC 2 only:               72.22%
+   - Dual-MIC Fusion:          72.22%

@@ -1,0 +1,22 @@
+{
+  "total_calibration_samples": 248,
+  "feature_shape": [
+    97,
+    13,
+    1
+  ],
+  "split_source": "TRAINING SPLIT ONLY (splits/train.csv)",
+  "validation_or_test_used": false,
+  "class_distribution": {
+    "0_BACKGROUND": 50,
+    "1_UNKNOWN": 98,
+    "2_TRINETRA": 100
+  },
+  "source_distribution": {
+    "natural_trinetra": 50,
+    "synthetic_trinetra": 50,
+    "similar_hard_negatives": 48,
+    "negative_general_speech": 50,
+    "background_environmental_noise": 50
+  }
+}

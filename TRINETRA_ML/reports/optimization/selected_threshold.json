@@ -1,0 +1,14 @@
+{
+  "threshold": 0.85,
+  "tp": 25,
+  "fn": 29,
+  "recall": 0.463,
+  "frr": 0.537,
+  "accuracy": 0.75,
+  "unknown_fa": 1,
+  "background_fa": 2,
+  "similar_fa": 1,
+  "negative_fa": 0,
+  "total_false_accepts": 3,
+  "optimization_score": 0.398
+}

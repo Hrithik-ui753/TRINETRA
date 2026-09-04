@@ -1,0 +1,10 @@
+{
+  "calibrated_on": "VALIDATION ONLY",
+  "selected_threshold": 0.85,
+  "base_stage4_threshold": 0.85,
+  "recalibration_needed": false,
+  "val_accuracy": 0.75,
+  "val_trinetra_recall": 0.46296296296296297,
+  "val_similar_false_accepts": 1,
+  "val_background_false_accepts": 2
+}

@@ -1,0 +1,33 @@
+TRINETRA STAGE 9B — JURY HARDWARE DEMONSTRATION REPORT
+======================================================
+
+[Ingestion Event]: ESP32 sends telemetry packet via Wi-Fi to POST /api/telemetry (Status: 200 OK)
+
+Question: "What is the temperature?"
+Answer:   "TRINETRA-001 is currently at 28.7°C."
+Status:   PASS
+
+Question: "Is the door closed?"
+Answer:   "Yes. The door is closed on TRINETRA-001."
+Status:   PASS
+
+Question: "How is the communication?"
+Answer:   "Wi-Fi and server communication are connected on TRINETRA-001."
+Status:   PASS
+
+Question: "What is the inference latency?"
+Answer:   "TRINETRA-001 DS-CNN inference latency is 0.146 ms."
+Status:   PASS
+
+Question: "Are there any faults?"
+Answer:   "TRINETRA-001 reports 0 active faults or warnings. System health is normal."
+Status:   PASS
+
+[Unattached Sensor Check]: Question: "What is the humidity?"
+Answer:   "Humidity data is unavailable because no humidity sensor is currently connected."
+Status:   PASS
+
+[Hardware Disconnection Event]: Wi-Fi / telemetry stream interrupted
+Question: "What is the machine temperature?"
+Answer:   "The machine's current telemetry is unavailable because the ESP32 is disconnected."
+Status:   PASS

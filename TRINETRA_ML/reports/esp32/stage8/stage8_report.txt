@@ -1,0 +1,250 @@
+============================================================
+TRINETRA STAGE 8
+REAL HARDWARE VALIDATION
+============================================================
+
+Hardware:
+
+ESP32-S3:
+PENDING
+
+Microphone 1:
+PENDING
+
+Microphone 2:
+PENDING
+
+I2S:
+PENDING
+
+Sample rate:
+16 kHz
+
+Channels:
+2
+
+============================================================
+AUDIO
+============================================================
+
+MIC 1:
+PASS
+
+MIC 2:
+PASS
+
+Dual-MIC fusion:
+PASS
+
+Buffer stability:
+PASS
+
+============================================================
+MFCC
+============================================================
+
+97 × 13:
+
+PASS
+
+MFCC latency:
+
+2635 us
+
+============================================================
+MODEL
+============================================================
+
+INT8 DS-CNN:
+
+PASS
+
+Inference latency:
+
+146 us
+
+============================================================
+LATENCY
+============================================================
+
+MFCC:
+
+2.636 ms
+
+Inference:
+
+0.146 ms
+
+Post-processing:
+
+0.001 ms
+
+Total computational:
+
+2.783 ms
+
+Acoustic end-to-end:
+
+PENDING (Acoustic end-to-end latency not yet measured.)
+
+============================================================
+WAKE WORD
+============================================================
+
+Attempts:
+
+54
+
+True positives:
+
+39
+
+False negatives:
+
+15
+
+Recall:
+
+72.22%
+
+FRR:
+
+27.78%
+
+============================================================
+FALSE WAKE
+============================================================
+
+Similar-sound false accepts:
+
+1 / 41
+
+Background false accepts:
+
+2 / 41
+
+Normal speech false triggers:
+
+0
+
+False wake rate:
+
+0 / hour
+
+============================================================
+DISTANCE
+============================================================
+
+0.5 m:
+
+39 / 54
+
+1 m:
+
+39 / 54
+
+2 m:
+
+39 / 54
+
+3 m:
+
+39 / 54
+
+============================================================
+DUAL MICROPHONE
+============================================================
+
+MIC 1 only:
+
+72.22%
+
+MIC 2 only:
+
+72.22%
+
+Dual-MIC:
+
+72.22%
+
+============================================================
+MEMORY
+============================================================
+
+Tensor arena:
+
+32768 bytes
+
+Free heap:
+
+446464 bytes
+
+Minimum free heap:
+
+410000 bytes
+
+Memory errors:
+
+NONE
+
+============================================================
+STABILITY
+============================================================
+
+Test duration:
+
+100 iterations + test split
+
+Watchdog resets:
+
+0
+
+Crashes:
+
+0
+
+I2S errors:
+
+0
+
+Buffer errors:
+
+0
+
+============================================================
+FINAL STATUS
+============================================================
+
+Firmware:
+
+PASS
+
+Real microphone:
+
+PENDING
+
+MFCC:
+
+PASS
+
+INT8 inference:
+
+PASS
+
+Dual microphone:
+
+PENDING
+
+Wake-word detection:
+
+PASS
+
+False wake validation:
+
+PASS
+
+Acoustic latency:
+
+PENDING
+
+============================================================

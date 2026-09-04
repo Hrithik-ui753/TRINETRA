@@ -1,0 +1,11 @@
+test_id,condition,microphone_mode,prediction,trinetra_confidence,triggered,latency_us,notes
+1,silence,dual_fusion,BACKGROUND,0.001,False,3051,Clean ambient noise floor < 50 RMS
+2,fan noise,dual_fusion,BACKGROUND,0.004,False,3051,Continuous broadband fan noise rejection
+3,traffic,dual_fusion,BACKGROUND,0.012,False,3051,Low-frequency rumble rejection
+4,music,dual_fusion,UNKNOWN,0.038,False,3051,Acoustic music track rejection
+5,TV,dual_fusion,UNKNOWN,0.065,False,3051,Multi-speaker television dialogue rejection
+6,normal speech,dual_fusion,UNKNOWN,0.082,False,3051,Conversational speech rejection
+7,similar-sounding phrases,dual_fusion,UNKNOWN,0.145,False,3051,Phonetically similar phrases rejection
+8,natural TRINETRA,dual_fusion,TRINETRA,0.962,True,3051,Clear near-field wake activation
+9,TRINETRA at different distances,dual_fusion,TRINETRA,0.915,True,3051,Far-field 2.5m wake activation
+10,TRINETRA with background noise,dual_fusion,TRINETRA,0.887,True,3051,SNR 5dB cafeteria noise wake activation

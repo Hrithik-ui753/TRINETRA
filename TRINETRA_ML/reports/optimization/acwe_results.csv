@@ -1,0 +1,7 @@
+acwe_configuration,n_required,m_window_size,detection_delay_windows,trinetra_tp,trinetra_fn,trinetra_recall,trinetra_frr,similar_false_accepts,negative_false_accepts,background_false_accepts,total_false_accepts
+1 of 1 (Standard Single-Window),1,1,0,8,46,0.1481,0.8519,0,0,1,1
+1 of 2 (Transient Leniency),1,2,0,24,30,0.4444,0.5556,1,0,1,2
+2 of 2 (Strict Dual-Window),2,2,1,8,46,0.1481,0.8519,0,0,1,1
+2 of 3 (Balanced Confirmation),2,3,1,24,30,0.4444,0.5556,1,0,1,2
+2 of 4 (Robust Temporal Confirm),2,4,1,27,27,0.5,0.5,1,0,1,2
+3 of 4 (Ultra-High Rejection),3,4,2,23,31,0.4259,0.5741,1,0,1,2

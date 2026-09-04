@@ -1,0 +1,3 @@
+experiment,parameters,val_accuracy,val_macro_f1,val_trinetra_recall,val_frr,val_similar_false_accepts,val_background_false_accepts
+A_baseline_ds_cnn,"2,723",64.29%,64.71%,38.89%,61.11%,10,6
+B_natural_balanced_augmented,"2,723",75.00%,74.26%,46.30%,53.70%,1,2

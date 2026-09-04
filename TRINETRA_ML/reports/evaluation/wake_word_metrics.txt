@@ -1,0 +1,25 @@
+============================================================
+TRINETRA WAKE-WORD SPECIFIC METRICS & FALSE WAKE-UP ANALYSIS
+============================================================
+
+1. TRINETRA ACTIVATION PERFORMANCE:
+   - Total Positive Test Clips:        54
+   - True Wake-Word Detections (TP):   40
+   - Missed Wake-Words (FN):           14
+   - TRINETRA Recall (TPR):            74.07%
+   - False Rejection Rate (FRR):       25.93%
+
+2. FALSE ACCEPTANCE (FALSE WAKE-UP) BEHAVIOR:
+   - UNKNOWN -> TRINETRA False Accepts:    5
+   - BACKGROUND -> TRINETRA False Accepts: 3
+   - Total False Wake-Up Events:           8
+
+3. HARD NEGATIVE GRANULAR ANALYSIS:
+   - Hard Negative ('similar') False Accepts:  5 / 41
+   - Regular Speech ('negative') False Accepts: 0 / 4
+   - Environment ('background') False Accepts: 3 / 41
+
+4. SOURCE PERFORMANCE BREAKDOWN (TRINETRA WAKE-WORD):
+   - Natural TRINETRA Accuracy:   12/26 (46.2%)
+   - Synthetic TRINETRA Accuracy: 28/28 (100.0%)
+============================================================

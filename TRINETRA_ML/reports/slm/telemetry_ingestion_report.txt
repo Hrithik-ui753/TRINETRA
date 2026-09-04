@@ -1,0 +1,16 @@
+TRINETRA STAGE 9B — BACKEND TELEMETRY INGESTION AUDIT
+=====================================================
+
+Endpoint: POST /api/telemetry
+
+1. Valid Payload Ingestion Tests:
+   - Status Code: 200 OK
+   - Response Body: {"status": "accepted", "device_id": "TRINETRA-001", "source": "esp32"}
+   - Registry Update: Successful
+
+2. Adversarial Rejection Tests:
+   - Missing device_id:                REJECTED (400 Bad Request) — PASS
+   - Malformed temperature (string):   REJECTED (400 Bad Request) — PASS
+   - Malformed voltage (string):       REJECTED (400 Bad Request) — PASS
+   - Null unequipped sensors:          ACCEPTED (200 OK) — PASS
+   - Ingestion Pipeline Status:        PASS

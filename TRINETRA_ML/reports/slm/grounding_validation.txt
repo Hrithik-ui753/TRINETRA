@@ -1,0 +1,14 @@
+TRINETRA STAGE 9A — ANTI-HALLUCINATION & GROUNDING REPORT
+=========================================================
+
+1. Hallucination Detection Test Suite:
+   - Unsupported Temperature (31.2°C vs 28.4°C):  DETECTED & REJECTED (PASS)
+   - Unsupported Door State (OPEN vs CLOSED):      DETECTED & REJECTED (PASS)
+   - Unsupported Voltage (5.50V vs 5.02V):         DETECTED & REJECTED (PASS)
+   - Missing Field Fabrication (Battery Health):   DETECTED & REJECTED (PASS)
+
+2. Grounding Accuracy:
+   - Grounded Response Accuracy:                   100.0%
+   - Telemetry Fabrication Rate:                   0.0%
+   - Missing-Data Handling Rate:                   100.0%
+   - Anti-Hallucination Status:                    PASS

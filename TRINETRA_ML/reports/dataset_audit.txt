@@ -1,0 +1,44 @@
+============================================================
+TRINETRA DATASET AUDIT REPORT
+============================================================
+Total media files scanned: 1397
+Successfully decoded files: 1397
+Total audio duration: 0.779 hours
+Audio duration range: 0.703s - 4.245s (Mean: 2.008s)
+------------------------------------------------------------
+FOLDER DISTRIBUTION:
+  - negative_sounds: 316 files
+  - noise_sounds: 407 files
+  - positive_sounds: 543 files
+  - similar_sounds: 131 files
+------------------------------------------------------------
+EXTENSION DISTRIBUTION:
+  - .m4a: 234 files
+  - .mp4: 52 files
+  - .wav: 1111 files
+------------------------------------------------------------
+SAMPLE RATE DISTRIBUTION (Readable):
+  - 16000 Hz: 1111 files
+  - 44100 Hz: 36 files
+  - 48000 Hz: 250 files
+------------------------------------------------------------
+CHANNELS DISTRIBUTION (Readable):
+  - 1 channel(s): 1361 files
+  - 2 channel(s): 36 files
+------------------------------------------------------------
+BIT DEPTH DISTRIBUTION (Readable):
+  - 16 bit: 1111 files
+  - 32 bit: 286 files
+------------------------------------------------------------
+CODEC / CONTAINER DISTRIBUTION:
+  - WAV: 1111 files
+  - aac: 286 files
+------------------------------------------------------------
+QUALITY & ANOMALY AUDIT:
+  - Corrupted / Unreadable: 0
+  - Zero-Length files:      0
+  - Silent files:           9
+  - Very short (<0.3s):     0
+  - Unusually long (>10s):  0
+  - Exact Duplicate files:  6
+============================================================

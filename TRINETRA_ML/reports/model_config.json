@@ -1,0 +1,30 @@
+{
+  "model_name": "TRINETRA_DS_CNN_Baseline",
+  "input_shape": [
+    97,
+    13,
+    1
+  ],
+  "output_shape": [
+    3
+  ],
+  "total_parameters": 2723,
+  "trainable_parameters": 2467,
+  "non_trainable_parameters": 256,
+  "approx_float32_weight_size_kb": 10.64,
+  "approx_int8_weight_size_kb": 2.66,
+  "approx_macs": 2663328,
+  "architecture_summary": {
+    "initial_filters": 16,
+    "ds_blocks": [
+      32,
+      32
+    ],
+    "kernel_size": [
+      3,
+      3
+    ],
+    "activation": "ReLU",
+    "classifier": "Dense(3, Softmax)"
+  }
+}

@@ -1,0 +1,56 @@
+TRINETRA STAGE 9A — JURY DEMONSTRATION VERIFICATION RESULTS
+==========================================================
+
+-----------------------------------------
+Current device: TRINETRA-001
+-----------------------------------------
+User: "What is the temperature?"
+TRINETRA: "TRINETRA-001 is currently at 28.4°C."
+Status: PASS
+
+User: "Is the door closed?"
+TRINETRA: "Yes. The door is closed on TRINETRA-001."
+Status: PASS
+
+User: "What is the communication status?"
+TRINETRA: "Wi-Fi and server communication are connected on TRINETRA-001."
+Status: PASS
+
+-----------------------------------------
+Current device: TRINETRA-002
+-----------------------------------------
+User: "What is the temperature?"
+TRINETRA: "TRINETRA-002 is currently at 34.7°C."
+Status: PASS
+
+User: "Is the door closed?"
+TRINETRA: "No. The door is currently open on TRINETRA-002."
+Status: PASS
+
+User: "What is the communication status?"
+TRINETRA: "Wi-Fi and server communication are connected on TRINETRA-002."
+Status: PASS
+
+-----------------------------------------
+Current device: TRINETRA-003
+-----------------------------------------
+User: "What is the temperature?"
+TRINETRA: "TRINETRA-003 is currently at 24.8°C."
+Status: PASS
+
+User: "Is the door closed?"
+TRINETRA: "Yes. The door is closed on TRINETRA-003."
+Status: PASS
+
+User: "What is the communication status?"
+TRINETRA: "Wi-Fi is disconnected on TRINETRA-003."
+Status: PASS
+
+-----------------------------------------
+Missing Telemetry Test: TRINETRA-003
+-----------------------------------------
+User: "What is the battery health?"
+TRINETRA: "Battery health data is unavailable for TRINETRA-003."
+Status: PASS
+
+Jury Demo Final Result: PASS

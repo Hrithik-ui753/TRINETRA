@@ -1,0 +1,9 @@
+Metric,Baseline,Optimized,Change
+Test Accuracy,81.43%,86.43%,+5.00%
+Macro F1,81.76%,86.53%,+4.77%
+TRINETRA Recall,62.96%,70.37%,+7.41%
+TRINETRA FRR,37.04%,29.63%,-7.41%
+Similar False Accepts,2,1,-1
+Background False Accepts,3,2,-1
+Natural TRINETRA Perf,6/26 (23.1%),10/26 (38.5%),Improved
+Synthetic TRINETRA Perf,28/28 (100.0%),28/28 (100.0%),Maintained

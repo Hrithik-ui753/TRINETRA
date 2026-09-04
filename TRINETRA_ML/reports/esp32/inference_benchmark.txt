@@ -1,0 +1,12 @@
+TRINETRA ESP32-S3 INFERENCE BENCHMARK REPORT
+==================================================
+
+Model:                trinetra_ds_cnn_int8.tflite
+Iterations:           100
+Min Latency:          96.1 us (0.096 ms)
+Mean Latency:         190.1 us (0.190 ms)
+Median Latency:       168.5 us (0.169 ms)
+Max Latency:          629.4 us (0.629 ms)
+ESP32-S3 Estimated:   4,200 - 6,500 us (4.2 - 6.5 ms @ 240 MHz)
+MFCC Feature Timing:  NOT IMPLEMENTED (Hardware capture pending)
+End-to-End Timing:    NOT YET MEASURED (Hardware deployment pending)

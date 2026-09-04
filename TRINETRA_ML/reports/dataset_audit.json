@@ -1,0 +1,93 @@
+{
+  "total_files": 1397,
+  "total_readable_files": 1397,
+  "folder_distribution": {
+    "negative_sounds": 316,
+    "noise_sounds": 407,
+    "positive_sounds": 543,
+    "similar_sounds": 131
+  },
+  "extension_distribution": {
+    ".wav": 1111,
+    ".mp4": 52,
+    ".m4a": 234
+  },
+  "sample_rate_distribution": {
+    "16000": 1111,
+    "44100": 36,
+    "48000": 250
+  },
+  "channel_distribution": {
+    "1": 1361,
+    "2": 36
+  },
+  "bit_depth_distribution": {
+    "16": 1111,
+    "32": 286
+  },
+  "codec_distribution": {
+    "WAV": 1111,
+    "aac": 286
+  },
+  "duration_metrics": {
+    "min_sec": 0.703,
+    "max_sec": 4.245,
+    "mean_sec": 2.008,
+    "total_hours": 0.779
+  },
+  "anomalies": {
+    "corrupted_count": 0,
+    "corrupted_files": [],
+    "zero_length_count": 0,
+    "zero_length_files": [],
+    "silent_count": 9,
+    "silent_files": [
+      "AUDIO-CLIPS/noise_sounds/random/nishanth_background_0024.wav",
+      "AUDIO-CLIPS/noise_sounds/random/nishanth_background_0047.wav",
+      "AUDIO-CLIPS/noise_sounds/random/nishanth_background_0050.wav",
+      "AUDIO-CLIPS/noise_sounds/random/nishanth_background_0051.wav",
+      "AUDIO-CLIPS/noise_sounds/random/nishanth_background_0056.wav",
+      "AUDIO-CLIPS/noise_sounds/random/nishanth_background_0058.wav",
+      "AUDIO-CLIPS/noise_sounds/random/nishanth_background_0061.wav",
+      "AUDIO-CLIPS/noise_sounds/random/nishanth_background_0063.wav",
+      "AUDIO-CLIPS/noise_sounds/random/nishanth_background_0065.wav"
+    ],
+    "very_short_count (<0.3s)": 0,
+    "very_short_files": [],
+    "unusually_long_count (>10s)": 0,
+    "unusually_long_files": [],
+    "exact_duplicate_files_count": 6,
+    "exact_duplicates": [
+      {
+        "original": "AUDIO-CLIPS/negative_sounds/WhatsApp Audio 2026-08-31 at 11.00.15 PM (3).mp4",
+        "duplicate": "AUDIO-CLIPS/negative_sounds/WhatsApp Audio 2026-08-31 at 11.00.15 PM (4).mp4",
+        "hash": "b8efcc98cf0fdc6c0fcbde575131ebf367d3f08faf6a0886839435fe2e82d5da"
+      },
+      {
+        "original": "AUDIO-CLIPS/noise_sounds/random/WhatsApp Audio 2026-08-31 at 11.03.01 PM (1).mp4",
+        "duplicate": "AUDIO-CLIPS/noise_sounds/random/WhatsApp Audio 2026-08-31 at 11.03.01 PM.mp4",
+        "hash": "2b2241f4324bf7c0b195814cfe595ef00a9d2e363aea11ca94bc7ea143ba766e"
+      },
+      {
+        "original": "AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 10.50.10 PM (1).mp4",
+        "duplicate": "AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 10.50.10 PM (2).mp4",
+        "hash": "46496d3e606f1c53c765c6993803a90cfdc80a80e4292d679c2bce44f0bb63fc"
+      },
+      {
+        "original": "AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 10.50.12 PM (1).mp4",
+        "duplicate": "AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 10.50.12 PM (2).mp4",
+        "hash": "156c9e6a59fd6d9820224e277af906c860b7b06e7f100dec48ee002d8eb75ef8"
+      },
+      {
+        "original": "AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 10.50.12 PM (1).mp4",
+        "duplicate": "AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 10.50.12 PM.mp4",
+        "hash": "156c9e6a59fd6d9820224e277af906c860b7b06e7f100dec48ee002d8eb75ef8"
+      },
+      {
+        "original": "AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 7.39.25 PM (1).mp4",
+        "duplicate": "AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 7.39.25 PM.mp4",
+        "hash": "697522098706ebab03714ca572e8d4492da7f304bd9dcfe7de71df21eb108e28"
+      }
+    ]
+  }
+}

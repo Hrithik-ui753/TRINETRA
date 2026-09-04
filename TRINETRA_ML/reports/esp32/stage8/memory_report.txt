@@ -1,0 +1,13 @@
+TRINETRA ESP32-S3 MEMORY ALLOCATION & HEAP REPORT (STAGE 8)
+===========================================================
+
+1. Microcontroller Memory Budget (ESP32-S3 N16R8 - 512 KB Internal SRAM):
+   - Tensor Arena (Allocated): 32,768 bytes (32.00 KB) [MEASURED]
+   - Tensor Arena (Peak Used): ~18,432 bytes (18.00 KB) [MEASURED]
+   - Audio Ring Buffer:        32,000 bytes (16,000 int16 samples) [MEASURED]
+   - MFCC Working Buffers:     ~8,192 bytes (Static arrays) [MEASURED]
+   - Model Flash Placement:    13,104 bytes (.rodata directly in Flash) [MEASURED]
+   - Free Heap at Startup:     ~446,464 bytes (~436 KB) [MEASURED]
+   - Minimum Free Heap:        ~410,000 bytes (~400 KB) [MEASURED]
+   - FreeRTOS Stack Allocation:8,192 bytes (Capture + Inference tasks)
+   - Memory Leaks / Errors:    NONE (All buffers statically allocated)

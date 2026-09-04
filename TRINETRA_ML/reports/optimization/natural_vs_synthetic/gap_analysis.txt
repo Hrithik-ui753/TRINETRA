@@ -1,0 +1,20 @@
+============================================================
+TRINETRA NATURAL VS SYNTHETIC WAKE-WORD GAP AUDIT
+============================================================
+
+1. SAMPLE DISTRIBUTION:
+   - TRAIN:      Natural = 180, Synthetic = 255
+   - VALIDATION: Natural =  37, Synthetic =  17
+   - TEST:       Natural =  26, Synthetic =  28
+
+2. ACOUSTIC DISCREPANCIES DISCOVERED:
+   - Natural TRINETRA clips exhibit higher dynamic range and varied RMS (0.06056) compared to Synthetic (0.04732).
+   - Natural recordings have varying speech tempo (1.803s) vs rigid synthetic duration (1.045s).
+   - Formant and higher-order MFCC coefficients (indices 3-8) display pronounced spectral variance in natural human vocal tract acoustics.
+
+3. RECOMMENDED MITIGATION STRATEGY:
+   - Natural Positive Balanced Sampling (increase sampling frequency of real human wake-word utterances during training).
+   - Realistic Acoustic Perturbation (speed 0.95x-1.05x, room impulse reverb, gain variations, and background noise mixing).
+   - Hard-negative similar sound weighting to maintain tight decision boundaries.
+   - Validation-calibrated confidence thresholding.
+============================================================

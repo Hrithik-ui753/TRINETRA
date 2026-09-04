@@ -1,0 +1,29 @@
+TRINETRA ESP32-S3 LATENCY & TIMING BENCHMARK REPORT (STAGE 8)
+=============================================================
+
+1. MFCC Feature Extraction Latency (97 frames x 13 coefficients):
+   - Min:                      2088.5 us (2.088 ms)
+   - Mean:                     2635.8 us (2.636 ms)
+   - Median:                   2426.4 us (2.426 ms)
+   - Max:                      4339.4 us (4.339 ms)
+
+2. DS-CNN INT8 Model Inference Latency:
+   - Min:                      111.4 us (0.111 ms)
+   - Mean:                     146.2 us (0.146 ms)
+   - Median:                   131.5 us (0.132 ms)
+   - Max:                      355.7 us (0.356 ms)
+
+3. Post-Processing & ACWE Latency:
+   - Min:                      0.5 us (0.001 ms)
+   - Mean:                     0.9 us (0.001 ms)
+   - Median:                   0.7 us (0.001 ms)
+   - Max:                      2.3 us (0.002 ms)
+
+4. Total Computational Latency (Audio Window Ready -> Trigger Decision):
+   - Min:                      2200.5 us (2.200 ms)
+   - Mean:                     2782.9 us (2.783 ms)
+   - Median:                   2571.4 us (2.571 ms)
+   - Max:                      4524.1 us (4.524 ms)
+
+5. Acoustic End-to-End Latency (Mouth -> Trigger Event):
+   - Status:                   PENDING (Acoustic end-to-end latency not yet measured.)

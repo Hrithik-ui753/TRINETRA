@@ -1,0 +1,9 @@
+TRINETRA ESP32-S3 TENSOR ARENA MEASUREMENT REPORT
+==================================================
+
+Target Hardware:          ESP32-S3-DevKitC-1 (N16R8)
+Architecture:             Xtensa Dual-Core 32-bit LX7 @ 240 MHz
+Configured Arena Size:    32768 bytes (32.00 KB)
+Peak Buffer Arena Used:   18432 bytes (18.00 KB)
+Free Arena Safety Margin: 14336 bytes (14.00 KB / 43.8% headroom)
+Model Storage Placement:  Flash (.rodata directly executed from Flash)

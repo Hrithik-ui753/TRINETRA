@@ -1,0 +1,14 @@
+idf_component_register(
+    SRCS
+        "main.cpp"
+        "model_runner.cpp"
+        "audio_frontend.cpp"
+        "mfcc_extractor.cpp"
+        "wake_detector.cpp"
+    INCLUDE_DIRS
+        "."
+    REQUIRES
+        esp_timer
+        driver
+        esp_partition
+)

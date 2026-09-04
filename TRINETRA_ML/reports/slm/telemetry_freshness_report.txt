@@ -1,0 +1,12 @@
+TRINETRA STAGE 9B — TELEMETRY FRESHNESS & STALE AUDIT
+=====================================================
+
+1. Freshness Policy:
+   - Configurable Freshness Threshold: 15.0 seconds
+   - Real-time Timestamp Tracking:     Active per device
+
+2. Stale & Disconnection Test Scenarios:
+   - Scenario A (Fresh Ingestion):     Status = VALID, SLM serves live metrics (PASS)
+   - Scenario B (Expired Timestamp):   Status = STALE, SLM responds: "...telemetry is stale; current reading is unavailable." (PASS)
+   - Scenario C (Hardware Drop/Cut):   Status = DISCONNECTED, SLM responds: "...unavailable because the ESP32 is disconnected." (PASS)
+   - Telemetry Freshness Status:       PASS

@@ -1,0 +1,57 @@
+============================================
+TRINETRA STAGE 7
+REAL-TIME AUDIO + MFCC INTEGRATION
+============================================
+
+Audio:
+
+Sample rate:
+16000 Hz
+
+Microphones:
+2
+
+Audio interface:
+I2S Standard (SCK=GPIO14, WS=GPIO15, SD=GPIO16, Stereo 16-bit)
+
+MFCC:
+
+97 × 13
+
+MFCC implementation:
+PASS
+
+ESP32 MFCC latency:
+3091 us
+
+DS-CNN latency:
+208 us
+
+Total computational latency:
+3301 us
+
+Tensor arena:
+32768 bytes
+
+Free heap:
+446464 bytes
+
+ACWE:
+2-of-3
+
+Threshold:
+0.85
+
+Cooldown:
+1.5 s
+
+Firmware:
+BUILD PASS
+
+Live hardware test:
+PENDING
+
+Acoustic end-to-end latency:
+PENDING (Acoustic end-to-end latency not yet measured.)
+
+============================================

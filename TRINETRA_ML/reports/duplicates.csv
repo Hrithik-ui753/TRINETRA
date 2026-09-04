@@ -1,0 +1,14 @@
+original_file,duplicate_of,hash,duplicate_type
+AUDIO-CLIPS/negative_sounds/WhatsApp Audio 2026-08-31 at 11.00.15 PM (4).mp4,AUDIO-CLIPS/negative_sounds/WhatsApp Audio 2026-08-31 at 11.00.15 PM (3).mp4,b8efcc98cf0fdc6c0fcbde575131ebf367d3f08faf6a0886839435fe2e82d5da,EXACT_FILE
+AUDIO-CLIPS/noise_sounds/random/WhatsApp Audio 2026-08-31 at 11.03.01 PM.mp4,AUDIO-CLIPS/noise_sounds/random/WhatsApp Audio 2026-08-31 at 11.03.01 PM (1).mp4,2b2241f4324bf7c0b195814cfe595ef00a9d2e363aea11ca94bc7ea143ba766e,EXACT_FILE
+AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 10.50.10 PM (2).mp4,AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 10.50.10 PM (1).mp4,46496d3e606f1c53c765c6993803a90cfdc80a80e4292d679c2bce44f0bb63fc,EXACT_FILE
+AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 10.50.12 PM (2).mp4,AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 10.50.12 PM (1).mp4,156c9e6a59fd6d9820224e277af906c860b7b06e7f100dec48ee002d8eb75ef8,EXACT_FILE
+AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 10.50.12 PM.mp4,AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 10.50.12 PM (1).mp4,156c9e6a59fd6d9820224e277af906c860b7b06e7f100dec48ee002d8eb75ef8,EXACT_FILE
+AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 7.39.25 PM.mp4,AUDIO-CLIPS/positive_sounds/WhatsApp Audio 2026-08-31 at 7.39.25 PM (1).mp4,697522098706ebab03714ca572e8d4492da7f304bd9dcfe7de71df21eb108e28,EXACT_FILE
+standardized/background/random/background_random_000007.wav,standardized/background/random/background_random_000004.wav,83db14b814172d6db82d695369d1db992b5bd7b4c3bb264417d4f73e195649ea,SAME_AUDIO_CONTENT
+standardized/negative/negative_000009.wav,standardized/negative/negative_000008.wav,67c7ee78066a4e3245bcb86ad2dfa3dad6abb62655eecc5ced94964cd84f88b5,SAME_AUDIO_CONTENT
+standardized/positive/positive_000411.wav,standardized/positive/positive_000410.wav,4fea78c1dfa907edb8590369263851dbbb21397dd91529a209598c22e0024a39,SAME_AUDIO_CONTENT
+standardized/positive/positive_000418.wav,standardized/positive/positive_000417.wav,830bb0df0832c02c5fd050f95cc79c9bc8dfbc7835b331696284e8591fac9ae6,SAME_AUDIO_CONTENT
+standardized/positive/positive_000421.wav,standardized/positive/positive_000417.wav,830bb0df0832c02c5fd050f95cc79c9bc8dfbc7835b331696284e8591fac9ae6,SAME_AUDIO_CONTENT
+standardized/positive/positive_000427.wav,standardized/positive/positive_000426.wav,20dec16975c15a40c4c3ae9aeb9970ba2c0de4b261ca2cee93e72cf1e41e448f,SAME_AUDIO_CONTENT
+standardized/similar/similar_000125.wav,standardized/similar/similar_000124.wav,e4a375dae47dc9cb1320e78a6a013deaac135402dbd265d8a8134bda2c0e79b2,SAME_AUDIO_CONTENT
