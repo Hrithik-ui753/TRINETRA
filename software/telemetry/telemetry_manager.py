@@ -48,6 +48,10 @@ class TelemetryManager:
         """Alias for select_device."""
         return self.select_device(device_id)
 
+    def set_selected_device(self, device_id: str) -> bool:
+        """Alias for select_device."""
+        return self.select_device(device_id)
+
     def get_selected_device(self) -> str:
         """Returns currently selected device ID."""
         if not self._selected_device_id:

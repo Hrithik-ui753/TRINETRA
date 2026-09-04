@@ -45,6 +45,14 @@ class QueryParser:
             [],
             True
         ),
+        # CPU Temperature
+        (
+            "CPU_TEMPERATURE",
+            "cpu_temperature",
+            [r"\b(cpu temperature|cpu temp|processor temp|processor temperature)\b"],
+            ["system.cpu_temperature_c"],
+            False
+        ),
         # Temperature
         (
             "TEMPERATURE",

@@ -216,10 +216,20 @@ function CameraRig() {
 /* ─── Main Export ─── */
 interface SpaceSceneProps {
   isActivated?: boolean;
+  isOffline?: boolean;
+  healthWarning?: boolean;
   className?: string;
 }
 
-export function SpaceScene({ isActivated = false, className = '' }: SpaceSceneProps) {
+export function SpaceScene({
+  isActivated = false,
+  isOffline = false,
+  healthWarning = false,
+  className = '',
+}: SpaceSceneProps) {
+  const primaryColor = healthWarning ? '#f59e0b' : isOffline ? '#fbbf24' : isActivated ? '#22d3ee' : '#38bdf8';
+  const secondaryColor = healthWarning ? '#d97706' : isOffline ? '#d97706' : '#06b6d4';
+
   return (
     <div className={`pointer-events-none absolute inset-0 ${className}`}>
       <Canvas
@@ -234,7 +244,7 @@ export function SpaceScene({ isActivated = false, className = '' }: SpaceScenePr
         <CameraRig />
 
         {/* Starfield from drei */}
-        <Stars radius={50} depth={60} count={3000} factor={3} saturation={0.2} fade speed={0.5} />
+        <Stars radius={50} depth={60} count={3000} factor={3} saturation={0.2} fade speed={isActivated ? 1.5 : 0.5} />
 
         {/* Custom particle field */}
         <ParticleField count={500} isActivated={isActivated} />
@@ -242,16 +252,16 @@ export function SpaceScene({ isActivated = false, className = '' }: SpaceScenePr
         {/* Central core */}
         <CoreOrb isActivated={isActivated} />
 
-        {/* Orbital rings */}
-        <OrbitalRing radius={6} tube={0.02} color="#22d3ee" speed={0.4} tilt={0.3} isActivated={isActivated} />
-        <OrbitalRing radius={8} tube={0.015} color="#06b6d4" speed={-0.25} tilt={-0.5} isActivated={isActivated} />
-        <OrbitalRing radius={11} tube={0.01} color="#38bdf8" speed={0.15} tilt={0.8} isActivated={isActivated} />
-        <OrbitalRing radius={14} tube={0.008} color="#60a5fa" speed={-0.1} tilt={-1.2} isActivated={isActivated} />
+        {/* Orbital rings with dynamic color response */}
+        <OrbitalRing radius={6} tube={0.02} color={primaryColor} speed={isActivated ? 0.8 : 0.4} tilt={0.3} isActivated={isActivated} />
+        <OrbitalRing radius={8} tube={0.015} color={secondaryColor} speed={isActivated ? -0.5 : -0.25} tilt={-0.5} isActivated={isActivated} />
+        <OrbitalRing radius={11} tube={0.01} color={primaryColor} speed={0.15} tilt={0.8} isActivated={isActivated} />
+        <OrbitalRing radius={14} tube={0.008} color={secondaryColor} speed={-0.1} tilt={-1.2} isActivated={isActivated} />
 
         {/* Nebula clouds */}
-        <NebulaCloud position={[-10, 5, -15]} color="#06b6d4" scale={5} />
-        <NebulaCloud position={[12, -8, -20]} color="#3b82f6" scale={7} />
-        <NebulaCloud position={[0, 10, -25]} color="#0891b2" scale={8} />
+        <NebulaCloud position={[-10, 5, -15]} color={secondaryColor} scale={5} />
+        <NebulaCloud position={[12, -8, -20]} color={primaryColor} scale={7} />
+        <NebulaCloud position={[0, 10, -25]} color={secondaryColor} scale={8} />
 
         {/* Satellites */}
         <Satellites count={8} isActivated={isActivated} />
@@ -259,3 +269,4 @@ export function SpaceScene({ isActivated = false, className = '' }: SpaceScenePr
     </div>
   );
 }
+

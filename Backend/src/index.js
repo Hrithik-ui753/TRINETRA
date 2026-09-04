@@ -6,6 +6,7 @@ import admin from 'firebase-admin';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import crypto from 'crypto';
+import { geminiGroundService } from './services/geminiService.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -357,11 +358,23 @@ function generateGroundedResponse(query, targetDeviceId) {
   const isStale = t.status === 'stale' || (Date.now() - (t.last_received_ms || Date.now()) > 30000 && t.source === 'esp32');
 
   // Missing metric checks
+  // Missing metric checks
   if (lower.includes('battery health') || lower.includes('health of battery') || lower.includes('soh')) {
     return `Battery health data is unavailable for ${t.device_id}.`;
   }
   if (lower.includes('pressure') || lower.includes('barometer')) {
     return `Pressure data is currently unavailable for ${t.device_id}.`;
+  }
+
+  // CPU Temperature
+  if (lower.includes('cpu temperature') || lower.includes('cpu temp') || lower.includes('processor temp')) {
+    if (isStale) {
+      return `${t.device_id}'s latest CPU temperature reading is stale; current CPU temperature is unavailable.`;
+    }
+    if (t.system.cpu_temperature === null || t.system.cpu_temperature === undefined) {
+      return `CPU temperature is currently unavailable for ${t.device_id}.`;
+    }
+    return `${t.device_id} CPU temperature is currently ${t.system.cpu_temperature}°C.`;
   }
 
   // Temperature
@@ -421,23 +434,47 @@ function generateGroundedResponse(query, targetDeviceId) {
     }
   }
 
+  // Memory / Free Heap
+  if (
+    lower.includes('free heap') ||
+    lower.includes('heap') ||
+    lower.includes('memory') ||
+    lower.includes('ram') ||
+    lower.includes('sram')
+  ) {
+    const kb = (t.system.free_heap / 1024).toFixed(1);
+    return `${t.device_id} has ${t.system.free_heap.toLocaleString()} bytes (${kb} KB) of free internal memory available.`;
+  }
+
   // Wi-Fi / Server / Communication
   if (lower.includes('wifi') || lower.includes('wi-fi')) {
     return `${t.device_id} Wi-Fi is ${t.communication.wifi} (signal: ${t.communication.signal_strength} dBm).`;
   }
 
-  if (lower.includes('communication') || lower.includes('network') || lower.includes('connectivity')) {
+  if (
+    lower.includes('communication') ||
+    lower.includes('network') ||
+    lower.includes('connectivity') ||
+    lower.includes('link') ||
+    lower.includes('connected')
+  ) {
     if (t.communication.wifi === 'connected' && t.communication.server === 'connected') {
-      return `Wi-Fi and server communication are connected on ${t.device_id}.`;
+      return `Yes. Communication link is connected on ${t.device_id} (Wi-Fi: connected, Server: connected).`;
     } else if (t.communication.wifi === 'disconnected') {
-      return `Wi-Fi is disconnected on ${t.device_id}.`;
+      return `No. The communication link is disconnected on ${t.device_id} (Wi-Fi: disconnected).`;
     }
     return `${t.device_id} communication status: Wi-Fi is ${t.communication.wifi}, server is ${t.communication.server}.`;
   }
 
   // Microphones
-  if (lower.includes('microphone') || lower.includes('mic')) {
-    return `Both microphones on ${t.device_id} are ACTIVE and operational (16 kHz stereo).`;
+  if (/\b(microphone|microphones|mic|mics)\b/i.test(query)) {
+    const mic2Degraded = t.faults.includes('MIC_02 low signal');
+    if (t.audio.mic_1 === 'active' && t.audio.mic_2 === 'active' && !mic2Degraded) {
+      return `Both microphones on ${t.device_id} are ACTIVE and operational (16 kHz stereo).`;
+    } else if (mic2Degraded) {
+      return `Microphone status on ${t.device_id}: Mic 1 is ACTIVE, Mic 2 is ACTIVE (Warning: low signal degradation).`;
+    }
+    return `Microphone status on ${t.device_id}: Mic 1 is ${t.audio.mic_1}, Mic 2 is ${t.audio.mic_2}.`;
   }
 
   // ML Latency
@@ -457,8 +494,21 @@ function generateGroundedResponse(query, targetDeviceId) {
     return `${t.device_id} diagnostics: ${issues.join('; ')}.`;
   }
 
-  // Default / Complete Status
-  return `Complete status for ${t.device_id}: Status is ${t.system.status}. Ambient Temp: ${t.sensors.temperature}°C, Battery: ${t.power.battery_percent}% (${t.power.charging ? 'charging' : 'not charging'}), Wi-Fi: ${t.communication.wifi}. ${t.faults.length > 0 ? 'Faults: ' + t.faults.join(', ') : '0 active faults'}.`;
+  // Status / Health summary queries
+  if (
+    lower.includes('status') ||
+    lower.includes('health') ||
+    lower.includes('telemetry') ||
+    lower.includes('summary') ||
+    lower.includes('overview') ||
+    lower.includes('report') ||
+    lower.includes('diagnostics')
+  ) {
+    return `Complete status for ${t.device_id}: Status is ${t.system.status}. Ambient Temp: ${t.sensors.temperature}°C, Battery: ${t.power.battery_percent}% (${t.power.charging ? 'charging' : 'not charging'}), Wi-Fi: ${t.communication.wifi}. ${t.faults.length > 0 ? 'Faults: ' + t.faults.join(', ') : '0 active faults'}.`;
+  }
+
+  // Strict anti-hallucination / unavailable data response for unknown or missing metrics
+  return `Telemetry metric for "${query.trim()}" is currently unavailable or unsupported on ${t.device_id}.`;
 }
 
 // ─── Query Processing ───
@@ -615,10 +665,12 @@ app.post('/api/auth/reset-password', (req, res) => {
 
 // Health check
 app.get('/api/health', (req, res) => {
+  const isGroundAvailable = geminiGroundService.isConfigured();
   res.json({
     status: 'ok',
-    service: 'trinetra-backend',
-    selectedDevice: selectedDeviceId,
+    ground_ai: isGroundAvailable ? 'available' : 'not_configured',
+    ground_model: geminiGroundService.getModelName(),
+    device: 'TRINETRA-001',
     telemetrySource: DEVICE_PROFILES[selectedDeviceId]?.source || 'simulated',
     realHardware: 'pending',
     timestamp: new Date().toISOString()
@@ -731,22 +783,167 @@ app.post('/api/telemetry', (req, res) => {
 
 // POST /api/query
 app.post('/api/query', verifyAuth, async (req, res) => {
-  const { message, inputType = 'web_text', deviceId = null } = req.body;
+  const { message, query, inputType = 'web_text', deviceId = null } = req.body || {};
+  const queryText = (message || query || '').trim();
 
-  if (!message || typeof message !== 'string' || message.trim().length === 0) {
-    return res.status(400).json({ error: 'Message is required.' });
+  if (!queryText) {
+    return res.status(400).json({ error: 'Query or message is required.' });
   }
 
-  if (message.length > 2000) {
+  if (queryText.length > 2000) {
     return res.status(400).json({ error: 'Message too long. Maximum 2000 characters.' });
   }
 
   try {
-    const result = await processQuery(req.user?.uid, message.trim(), inputType, deviceId);
+    const result = await processQuery(req.user?.uid, queryText, inputType, deviceId);
     res.json(result);
   } catch (err) {
     console.error('Query processing error:', err);
     res.status(500).json({ error: 'Failed to process query. Please try again.' });
+  }
+});
+
+let groundQuerySequence = 1;
+
+// ─── Section 6: Ground Intelligence API (Gemini LLM Fallback) ───
+// POST /api/ground/query
+app.post('/api/ground/query', verifyAuth, async (req, res) => {
+  const startTime = Date.now();
+  const { query, transcript, device_id = 'TRINETRA-001', query_id, source = 'GROUND_FALLBACK', telemetry } = req.body || {};
+  const queryText = (query || transcript || '').trim();
+  const qId = query_id || `Q${String(groundQuerySequence++).padStart(3, '0')}`;
+
+  // 1. Validation: Device ID strictly TRINETRA-001
+  if (device_id !== 'TRINETRA-001') {
+    return res.status(400).json({
+      success: false,
+      query_id: qId,
+      device_id: device_id || 'UNKNOWN',
+      source: 'GROUND_LLM',
+      status: 'FAILED',
+      error_code: 'INVALID_DEVICE_ID',
+      message: "Target device must be 'TRINETRA-001'. Multiple devices or arbitrary IDs are rejected in single-machine architecture.",
+    });
+  }
+
+  // 2. Validation: Query string
+  if (!queryText) {
+    return res.status(400).json({
+      success: false,
+      query_id: qId,
+      device_id: 'TRINETRA-001',
+      source: 'GROUND_LLM',
+      status: 'FAILED',
+      error_code: 'INVALID_QUERY',
+      message: 'Query or transcript text is required and cannot be empty.',
+    });
+  }
+
+  if (queryText.length > 2000) {
+    return res.status(400).json({
+      success: false,
+      query_id: qId,
+      device_id: 'TRINETRA-001',
+      source: 'GROUND_LLM',
+      status: 'FAILED',
+      error_code: 'QUERY_TOO_LONG',
+      message: 'Query exceeds maximum allowed length of 2000 characters.',
+    });
+  }
+
+  // 3. Ground AI Configuration Check
+  if (!geminiGroundService.isConfigured()) {
+    const duration = Date.now() - startTime;
+    console.warn(`[GROUND_QUERY] ${qId} | TRINETRA-001 | FAILED: GEMINI_API_KEY_NOT_CONFIGURED (${duration}ms)`);
+    return res.status(503).json({
+      success: false,
+      query_id: qId,
+      device_id: 'TRINETRA-001',
+      source: 'GROUND_LLM',
+      status: 'FAILED',
+      error_code: 'GEMINI_API_KEY_NOT_CONFIGURED',
+      message: 'Ground intelligence API key is not configured on the server.',
+      model: geminiGroundService.getModelName(),
+    });
+  }
+
+  // 4. Extract or assemble telemetry grounding context
+  const targetTelemetry = (telemetry && typeof telemetry === 'object')
+    ? telemetry
+    : (DEVICE_PROFILES['TRINETRA-001'] || {});
+
+  try {
+    // 5. Execute Ground LLM generation via Gemini Service
+    const groundResult = await geminiGroundService.generateGroundResponse(queryText, targetTelemetry, {
+      timeoutMs: 35000,
+    });
+
+    const duration = Date.now() - startTime;
+
+    if (!groundResult.success) {
+      console.warn(`[GROUND_QUERY] ${qId} | TRINETRA-001 | FAILED: ${groundResult.error_code} (${duration}ms)`);
+      return res.status(502).json({
+        success: false,
+        query_id: qId,
+        device_id: 'TRINETRA-001',
+        source: 'GROUND_LLM',
+        status: 'FAILED',
+        error_code: groundResult.error_code || 'GROUND_AI_UNAVAILABLE',
+        message: groundResult.message || 'Ground intelligence is currently unavailable.',
+        model: geminiGroundService.getModelName(),
+      });
+    }
+
+    // 6. Log success safely (without API keys or secrets)
+    console.log(`[GROUND_QUERY] ${qId} | TRINETRA-001 | SUCCESS (${duration}ms) | Model: ${groundResult.model}`);
+
+    // Optional user query persistence
+    if (req.user?.uid) {
+      try {
+        const queryRef = db.collection('users').doc(req.user.uid).collection('queries');
+        await queryRef.add({
+          userId: req.user.uid,
+          deviceId: 'TRINETRA-001',
+          queryId: qId,
+          inputType: 'voice_ground_fallback',
+          transcript: queryText,
+          response: groundResult.responseText,
+          source: 'GROUND_LLM',
+          model: groundResult.model,
+          timestamp: admin.firestore.FieldValue.serverTimestamp(),
+          processingTime: duration,
+          status: 'completed',
+        });
+      } catch (err) {
+        // Non-blocking log
+      }
+    }
+
+    // 7. Return predictable structured response
+    return res.status(200).json({
+      success: true,
+      query_id: qId,
+      device_id: 'TRINETRA-001',
+      source: 'GROUND_LLM',
+      mode: 'ONLINE',
+      status: 'COMPLETED',
+      response: groundResult.responseText,
+      timestamp: new Date().toISOString(),
+      model: groundResult.model || geminiGroundService.getModelName(),
+      processing_time_ms: duration,
+    });
+  } catch (err) {
+    const duration = Date.now() - startTime;
+    console.error(`[GROUND_QUERY] ${qId} | TRINETRA-001 | ERROR:`, err.message);
+    return res.status(500).json({
+      success: false,
+      query_id: qId,
+      device_id: 'TRINETRA-001',
+      source: 'GROUND_LLM',
+      status: 'FAILED',
+      error_code: 'INTERNAL_SERVER_ERROR',
+      message: 'Internal server error occurred while processing ground query.',
+    });
   }
 });
 

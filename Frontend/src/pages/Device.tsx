@@ -5,69 +5,32 @@ import { PageHeader } from '@/components/ui/PageHeader';
 import { TRINETRADevice } from '@/components/device/TRINETRADevice';
 import { LEDIndicator, getLedStates } from '@/components/device/LEDIndicator';
 import { useTelemetryContext } from '@/context/TelemetryContext';
-import { Cpu, Mic, Radio, Monitor, Volume2, Wifi, Usb, Activity, Thermometer, ShieldAlert, Zap, RadioTower } from 'lucide-react';
-
-const DEVICE_PROFILES: Record<string, any> = {
-  'TRINETRA-001': {
-    source: 'simulated',
-    temperature: '28.4 °C',
-    humidity: '54.2 %',
-    door: 'CLOSED',
-    voltage: '5.02 V',
-    wifi: 'CONNECTED (-61 dBm)',
-    server: 'CONNECTED',
-    mic1: 'ACTIVE',
-    mic2: 'ACTIVE',
-    mfccLatency: '2.636 ms',
-    inferLatency: '0.146 ms',
-    freeHeap: '410,000 bytes (400.4 KB)',
-    uptime: '5h 7m 32s',
-    faults: '0 active faults',
-    status: 'NORMAL',
-  },
-  'TRINETRA-002': {
-    source: 'simulated',
-    temperature: '34.7 °C',
-    humidity: '61.3 %',
-    door: 'OPEN',
-    voltage: '4.91 V',
-    wifi: 'CONNECTED (-74 dBm)',
-    server: 'CONNECTED',
-    mic1: 'ACTIVE',
-    mic2: 'ACTIVE (Low Signal Warning)',
-    mfccLatency: '2.636 ms',
-    inferLatency: '0.146 ms',
-    freeHeap: '385,000 bytes (376.0 KB)',
-    uptime: '1h 10m 10s',
-    faults: 'MIC_02 low signal',
-    status: 'WARNING',
-  },
-  'TRINETRA-003': {
-    source: 'simulated',
-    temperature: '24.8 °C',
-    humidity: '47.5 %',
-    door: 'CLOSED',
-    voltage: '4.76 V',
-    wifi: 'DISCONNECTED',
-    server: 'DISCONNECTED',
-    mic1: 'ACTIVE',
-    mic2: 'ACTIVE',
-    mfccLatency: '2.636 ms',
-    inferLatency: '0.146 ms',
-    freeHeap: '446,000 bytes (435.5 KB)',
-    uptime: '26h 10m 00s',
-    faults: '0 active faults',
-    status: 'NORMAL',
-  },
-};
+import { DEVICE_TELEMETRY_REGISTRY } from '@/lib/slmEngine';
+import { Cpu, Thermometer, Activity, Zap, ShieldAlert, Wifi, Mic, Radio } from 'lucide-react';
 
 export function Device() {
-  const { kwsState } = useTelemetryContext();
-  const [selectedDevice, setSelectedDevice] = useState('TRINETRA-001');
+  const { kwsState, selectedDevice, setSelectedDevice } = useTelemetryContext();
   const [selected, setSelected] = useState<string | null>(null);
 
-  const profile = DEVICE_PROFILES[selectedDevice] || DEVICE_PROFILES['TRINETRA-001'];
-  const isReal = profile.source === 'esp32';
+  const rawProfile = DEVICE_TELEMETRY_REGISTRY[selectedDevice] || DEVICE_TELEMETRY_REGISTRY['TRINETRA-001'];
+  const profile = {
+    source: rawProfile.source,
+    temperature: rawProfile.sensors.temperature !== null ? `${rawProfile.sensors.temperature} °C` : 'Unavailable',
+    humidity: rawProfile.sensors.humidity !== null ? `${rawProfile.sensors.humidity} %` : 'Unavailable',
+    door: rawProfile.sensors.door ? rawProfile.sensors.door.toUpperCase() : 'Unavailable',
+    voltage: rawProfile.power.voltage !== null ? `${rawProfile.power.voltage} V` : 'Unavailable',
+    wifi: `${rawProfile.communication.wifi.toUpperCase()} (${rawProfile.communication.signal_strength} dBm)`,
+    server: rawProfile.communication.server.toUpperCase(),
+    mic1: rawProfile.audio.mic_1.toUpperCase(),
+    mic2: rawProfile.faults.includes('MIC_02 low signal') ? 'ACTIVE (Low Signal Warning)' : rawProfile.audio.mic_2.toUpperCase(),
+    mfccLatency: `${rawProfile.ml.mfcc_latency_ms} ms`,
+    inferLatency: `${rawProfile.ml.inference_latency_ms} ms`,
+    freeHeap: `${rawProfile.system.free_heap.toLocaleString()} bytes (${(rawProfile.system.free_heap / 1024).toFixed(1)} KB)`,
+    uptime: `${Math.floor(rawProfile.system.uptime / 3600)}h ${Math.floor((rawProfile.system.uptime % 3600) / 60)}m`,
+    faults: rawProfile.faults.length > 0 ? rawProfile.faults.join(', ') : '0 active faults',
+    status: rawProfile.system.status.toUpperCase(),
+  };
+  const isReal = false; // Pure software demo mode
 
   return (
     <div className="space-y-6">
@@ -75,7 +38,7 @@ export function Device() {
         <PageHeader
           title="TRINETRA Device & Telemetry Panel"
           subtitle="Hardware architecture, live component telemetry, and dynamic multi-device context."
-          badge="ESP32-S3"
+          badge="SIMULATED TELEMETRY"
         />
 
         {/* Device Switcher & Provenance Badge */}
@@ -87,19 +50,15 @@ export function Device() {
               onChange={(e) => setSelectedDevice(e.target.value)}
               className="bg-transparent font-mono text-sm font-semibold text-white focus:outline-none cursor-pointer"
             >
-              {Object.keys(DEVICE_PROFILES).map((dev) => (
+              {Object.keys(DEVICE_TELEMETRY_REGISTRY).map((dev) => (
                 <option key={dev} value={dev} className="bg-graphite-900 text-white">
                   {dev}
                 </option>
               ))}
             </select>
           </div>
-          <span className={`rounded-md border px-2.5 py-1 text-xs font-semibold tracking-wide ${
-            isReal
-              ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-400'
-              : 'border-amber-500/30 bg-amber-500/10 text-amber-400'
-          }`}>
-            {isReal ? 'REAL ESP32 TELEMETRY' : 'SIMULATED TELEMETRY'}
+          <span className="rounded-md border border-amber-500/30 bg-amber-500/10 px-2.5 py-1 text-xs font-semibold tracking-wide text-amber-400">
+            SIMULATED TELEMETRY · SOFTWARE DEMO
           </span>
         </div>
       </div>

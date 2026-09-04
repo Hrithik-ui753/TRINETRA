@@ -3,14 +3,14 @@ TRINETRA STAGE 9B — REAL ESP32 PIPELINE PERFORMANCE PROFILE
 
 Measured Execution Latencies (Averaged over 500 benchmark iterations):
 
-1. ESP32 Telemetry Generation Latency:     0.0104 ms
-2. Telemetry Serialization / Transport:    0.0081 ms
-3. Backend Ingestion & Schema Validation:  0.0132 ms
-4. Telemetry Manager Lookup Latency:       0.0135 ms
-5. Query Parsing Latency:                  0.0070 ms
-6. SLM Grounded Generation Latency:        0.0018 ms
-7. Response Validation Latency:            0.0029 ms
+1. ESP32 Telemetry Generation Latency:     0.0084 ms
+2. Telemetry Serialization / Transport:    0.0068 ms
+3. Backend Ingestion & Schema Validation:  0.0104 ms
+4. Telemetry Manager Lookup Latency:       0.0106 ms
+5. Query Parsing Latency:                  0.0066 ms
+6. SLM Grounded Generation Latency:        0.0016 ms
+7. Response Validation Latency:            0.0025 ms
 -----------------------------------------------------------
-TOTAL END-TO-END SOFTWARE QUERY LATENCY:   0.0573 ms
+TOTAL END-TO-END SOFTWARE QUERY LATENCY:   0.0472 ms
 
 Status: PASS (Deterministic ultra-low latency)

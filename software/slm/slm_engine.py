@@ -109,6 +109,14 @@ class SLMEngine:
         if intent == "BATTERY_HEALTH":
             return f"Battery health data is unavailable for {device_id}."
 
+        elif intent == "CPU_TEMPERATURE":
+            if is_stale:
+                return f"{device_id}'s latest CPU temperature reading is stale; current CPU temperature is unavailable."
+            cpu_t = s["cpu_temperature_c"]["value"]
+            if cpu_t is None or s["cpu_temperature_c"]["status"] == "unavailable":
+                return f"CPU temperature is currently unavailable for {device_id}."
+            return f"{device_id} CPU temperature is currently {cpu_t}°C."
+
         elif intent == "TEMPERATURE":
             if is_stale:
                 return f"{device_id}'s latest temperature reading is stale; a current temperature is unavailable."

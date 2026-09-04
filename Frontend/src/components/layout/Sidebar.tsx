@@ -5,9 +5,8 @@ import {
   Activity,
   LayoutDashboard,
   Mic,
-  Radio,
-  FlaskConical,
-  Shield,
+  BrainCircuit,
+  BarChart3,
   Cpu,
   ScrollText,
   Settings,
@@ -32,24 +31,18 @@ interface NavSection {
 
 const navSections: NavSection[] = [
   {
-    title: 'OVERVIEW',
+    title: 'SPACECRAFT COCKPIT',
     items: [
-      { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+      { to: '/dashboard', label: 'Mission', icon: LayoutDashboard },
       { to: '/assistant', label: 'Voice Assistant', icon: Mic },
+      { to: '/offline-slm', label: 'Edge AI / Offline', icon: BrainCircuit },
+      { to: '/analytics', label: 'Analytics', icon: BarChart3 },
+      { to: '/architecture', label: 'Architecture', icon: Cpu },
     ],
   },
   {
-    title: 'ACOUSTIC INTELLIGENCE',
+    title: 'MISSION SYSTEM',
     items: [
-      { to: '/acoustic', label: 'Dual Mic', icon: Radio },
-      { to: '/kws-performance', label: 'KWS Performance', icon: Shield },
-      { to: '/stress-lab', label: 'Stress Lab', icon: FlaskConical },
-    ],
-  },
-  {
-    title: 'SYSTEM',
-    items: [
-      { to: '/device', label: 'Device', icon: Cpu },
       { to: '/logs', label: 'Activity Logs', icon: ScrollText },
       { to: '/settings', label: 'Settings', icon: Settings },
     ],

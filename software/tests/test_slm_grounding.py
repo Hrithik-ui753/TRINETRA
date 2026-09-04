@@ -52,6 +52,66 @@ class TestSLMGrounding(unittest.TestCase):
         self.assertFalse(val["is_valid"])
         self.assertTrue(val["has_hallucination"])
 
+    def test_multi_device_no_leakage_temperature(self):
+        # TRINETRA-001
+        self.mgr.set_selected_device("TRINETRA-001")
+        res1 = self.slm.process_query("What is the temperature?")
+        self.assertIn("28.4°C", res1["response"])
+        self.assertIn("TRINETRA-001", res1["response"])
+
+        # TRINETRA-002
+        self.mgr.set_selected_device("TRINETRA-002")
+        res2 = self.slm.process_query("What is the temperature?")
+        self.assertIn("34.7°C", res2["response"])
+        self.assertIn("TRINETRA-002", res2["response"])
+
+        # TRINETRA-003
+        self.mgr.set_selected_device("TRINETRA-003")
+        res3 = self.slm.process_query("What is the temperature?")
+        self.assertIn("24.8°C", res3["response"])
+        self.assertIn("TRINETRA-003", res3["response"])
+
+    def test_multi_device_cpu_temperature(self):
+        self.mgr.set_selected_device("TRINETRA-001")
+        res1 = self.slm.process_query("What is the CPU temperature?")
+        self.assertIn("42.3°C", res1["response"])
+        self.assertIn("CPU temperature", res1["response"])
+
+        self.mgr.set_selected_device("TRINETRA-002")
+        res2 = self.slm.process_query("What is the CPU temperature?")
+        self.assertIn("48.7°C", res2["response"])
+
+        self.mgr.set_selected_device("TRINETRA-003")
+        res3 = self.slm.process_query("What is the CPU temperature?")
+        self.assertIn("38.2°C", res3["response"])
+
+    def test_multi_device_free_heap(self):
+        self.mgr.set_selected_device("TRINETRA-001")
+        res1 = self.slm.process_query("What is the free heap?")
+        self.assertIn("410000 bytes", res1["response"])
+
+        self.mgr.set_selected_device("TRINETRA-002")
+        res2 = self.slm.process_query("What is the free heap?")
+        self.assertIn("385000 bytes", res2["response"])
+
+        self.mgr.set_selected_device("TRINETRA-003")
+        res3 = self.slm.process_query("What is the free heap?")
+        self.assertIn("446000 bytes", res3["response"])
+
+    def test_microphone_active_grounding(self):
+        self.mgr.set_selected_device("TRINETRA-001")
+        res1 = self.slm.process_query("Is the microphone active?")
+        self.assertIn("active", res1["response"].lower())
+
+    def test_communication_link_multi_device(self):
+        self.mgr.set_selected_device("TRINETRA-001")
+        res1 = self.slm.process_query("Is the communication link connected?")
+        self.assertIn("connected", res1["response"].lower())
+
+        self.mgr.set_selected_device("TRINETRA-003")
+        res3 = self.slm.process_query("Is the communication link connected?")
+        self.assertIn("disconnected", res3["response"].lower())
+
     def test_actuator_command_safety_guard(self):
         res = self.slm.process_query("Turn off the machine power now.")
         self.assertIn("rejected", res["response"].lower())
@@ -60,3 +120,4 @@ class TestSLMGrounding(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+

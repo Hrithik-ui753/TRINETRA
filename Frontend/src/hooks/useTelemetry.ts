@@ -5,33 +5,9 @@ import type {
   KwsState,
   DeviceStatus,
   ActivityLog,
+  ConnectionState,
 } from '@/types';
-
-const DEFAULT_TELEMETRY: Telemetry = {
-  cpuUsage: 6.7,
-  cpuLimit: 10,
-  ramUsage: 148,
-  ramLimit: 256,
-  kwsAccuracy: 96.4,
-  wakeToAsrLatency: 82,
-};
-
-const DEFAULT_DEVICE: DeviceStatus = {
-  online: true,
-  connectionState: 'ONLINE',
-  mcu: 'ESP32-S3-DevKitC-1-N8',
-  microphones: '2 × INMP441',
-  kwsModel: 'TRINETRA / INT8',
-  display: 'SSD1306',
-  audio: 'MAX98357A',
-  network: 'Wi-Fi',
-  power: 'USB-C',
-  firmwareVersion: '1.4.2',
-  kwsVersion: 'TRINETRA-v3.1',
-  uptime: 86400 * 3 + 14_500,
-  wifiStrength: -52,
-  lastSync: new Date().toISOString(),
-};
+import { DEVICE_TELEMETRY_REGISTRY, type DeviceTelemetryProfile } from '@/lib/slmEngine';
 
 function generateWaveform(active: boolean, intensity = 0.3): number[] {
   return Array.from({ length: 64 }, (_, i) => {
@@ -43,6 +19,12 @@ function generateWaveform(active: boolean, intensity = 0.3): number[] {
 }
 
 export interface TelemetryHook {
+  selectedDevice: string;
+  setSelectedDevice: (deviceId: string) => void;
+  connectionState: ConnectionState;
+  setConnectionState: (state: ConnectionState) => void;
+  toggleConnection: () => void;
+  deviceProfile: DeviceTelemetryProfile;
   telemetry: Telemetry;
   micStatus: MicrophoneStatus;
   deviceStatus: DeviceStatus;
@@ -56,47 +38,41 @@ export interface TelemetryHook {
 
 export function useTelemetry(): TelemetryHook {
   const [isDemoMode, setDemoMode] = useState(true);
-  const [telemetry, setTelemetry] = useState<Telemetry>(DEFAULT_TELEMETRY);
+  const [selectedDevice, setSelectedDeviceState] = useState<string>('TRINETRA-001');
+  const [connectionState, setConnectionState] = useState<ConnectionState>('ONLINE');
   const [kwsState, setKwsState] = useState<KwsState>('LISTENING');
+
   const [logs, setLogs] = useState<ActivityLog[]>([
     {
       id: '1',
       time: new Date(Date.now() - 30000).toISOString(),
-      event: 'DEVICE BOOT',
+      event: 'DEVICE BOOT [SOFTWARE DEMO]',
       source: 'SYSTEM',
       status: 'INFO',
     },
     {
       id: '2',
       time: new Date(Date.now() - 28000).toISOString(),
-      event: 'KWS INITIALIZED',
+      event: 'KWS INT8 INITIALIZED (<256KB BUDGET)',
       source: 'KWS',
       status: 'SUCCESS',
     },
     {
       id: '3',
       time: new Date(Date.now() - 26000).toISOString(),
-      event: 'MIC 1 ACTIVE',
+      event: 'MIC 1 ACTIVE (16 kHz)',
       source: 'I2S',
       status: 'INFO',
     },
     {
       id: '4',
       time: new Date(Date.now() - 24000).toISOString(),
-      event: 'MIC 2 ACTIVE',
+      event: 'MIC 2 ACTIVE (16 kHz)',
       source: 'I2S',
       status: 'INFO',
     },
   ]);
-  const [micStatus, setMicStatus] = useState<MicrophoneStatus>(() => ({
-    mic1: { level: -42, active: true, waveform: generateWaveform(true) },
-    mic2: { level: -44, active: true, waveform: generateWaveform(true) },
-    noiseLevel: 42,
-    snr: 18,
-    kwsConfidence: 4,
-    status: 'LISTENING',
-  }));
-  const [deviceStatus] = useState<DeviceStatus>(DEFAULT_DEVICE);
+
   const wakeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const logIdRef = useRef(100);
 
@@ -104,79 +80,174 @@ export function useTelemetry(): TelemetryHook {
     setLogs((prev) => [...prev.slice(-99), { ...log, id: String(logIdRef.current++) }]);
   }, []);
 
-  // Slowly drift telemetry values
+  const setSelectedDevice = useCallback((_deviceId: string) => {
+    // Single physical system: always TRINETRA-001
+    setSelectedDeviceState('TRINETRA-001');
+  }, []);
+
+  const toggleConnection = useCallback(() => {
+    setConnectionState((prev) => {
+      const next = prev === 'ONLINE' ? 'OFFLINE' : 'ONLINE';
+      addLog({
+        time: new Date().toISOString(),
+        event: `NETWORK LINK: ${next}`,
+        source: 'NETWORK',
+        status: next === 'ONLINE' ? 'SUCCESS' : 'WARNING',
+      });
+      return next;
+    });
+  }, [addLog]);
+
+  const profile = DEVICE_TELEMETRY_REGISTRY['TRINETRA-001'];
+  const isOnline = connectionState === 'ONLINE';
+
+  // Compute telemetry metrics reflecting TRINETRA-001
+  const freeHeapKb = profile.system.free_heap / 1024;
+  const ramUsageKb = Math.max(80, Math.min(250, 512 - freeHeapKb));
+  const cpuUsage = 28.5;
+
+  const [telemetry, setTelemetry] = useState<Telemetry>({
+    cpuUsage,
+    cpuLimit: 100,
+    ramUsage: ramUsageKb,
+    ramLimit: 256,
+    kwsAccuracy: 96.4,
+    wakeToAsrLatency: 82,
+  });
+
+  const mic1Active = profile.audio.mic_1 === 'active';
+  const mic2Active = profile.audio.mic_2 === 'active' && !profile.faults.includes('MIC_02 low signal');
+
+  const [micStatus, setMicStatus] = useState<MicrophoneStatus>(() => ({
+    mic1: { level: -42, active: mic1Active, waveform: generateWaveform(mic1Active) },
+    mic2: { level: mic2Active ? -44 : -78, active: mic2Active, waveform: generateWaveform(mic2Active, 0.1) },
+    noiseLevel: 42,
+    snr: mic2Active ? 18 : 8,
+    kwsConfidence: 4,
+    status: 'LISTENING',
+  }));
+
+  const deviceStatus: DeviceStatus = {
+    online: isOnline,
+    connectionState: isOnline ? 'ONLINE' : 'OFFLINE',
+    mcu: 'ESP32-S3-DevKitC-1-N8 (Simulated)',
+    microphones: '2 × INMP441',
+    kwsModel: 'DS-CNN INT8 (13.1 KB)',
+    display: 'SSD1306 (128×64)',
+    audio: 'MAX98357A I2S',
+    network: isOnline ? 'Wi-Fi (Connected)' : 'Disconnected',
+    power: 'USB-C 5.0V',
+    firmwareVersion: profile.system.firmware_version || '1.0.0',
+    kwsVersion: 'TRINETRA-v3.1-INT8',
+    uptime: profile.system.uptime,
+    wifiStrength: profile.communication.signal_strength,
+    lastSync: profile.timestamp,
+  };
+
+  // Sync state with selected device profile
+  useEffect(() => {
+    setTelemetry({
+      cpuUsage,
+      cpuLimit: 100,
+      ramUsage: ramUsageKb,
+      ramLimit: 256,
+      kwsAccuracy: 96.4,
+      wakeToAsrLatency: 82,
+    });
+
+    setMicStatus((prev) => ({
+      ...prev,
+      mic1: { level: -42, active: mic1Active, waveform: generateWaveform(mic1Active) },
+      mic2: { level: mic2Active ? -44 : -78, active: mic2Active, waveform: generateWaveform(mic2Active, mic2Active ? 0.28 : 0.05) },
+      snr: mic2Active ? 18 : 8,
+    }));
+  }, [selectedDevice, cpuUsage, ramUsageKb, mic1Active, mic2Active]);
+
+  // Periodic subtle drift for live feel
   useEffect(() => {
     if (!isDemoMode) return;
     const interval = setInterval(() => {
       setTelemetry((prev) => ({
         ...prev,
-        cpuUsage: Math.max(4, Math.min(9.5, prev.cpuUsage + (Math.random() - 0.5) * 0.4)),
-        ramUsage: Math.max(140, Math.min(160, prev.ramUsage + (Math.random() - 0.5) * 2)),
-        kwsAccuracy: Math.max(94, Math.min(98, prev.kwsAccuracy + (Math.random() - 0.5) * 0.2)),
+        cpuUsage: Math.max(10, Math.min(90, prev.cpuUsage + (Math.random() - 0.5) * 0.4)),
+        ramUsage: Math.max(100, Math.min(220, prev.ramUsage + (Math.random() - 0.5) * 0.5)),
       }));
+
       setMicStatus((prev) => ({
         ...prev,
         mic1: {
           ...prev.mic1,
-          level: -42 + (Math.random() - 0.5) * 4,
-          waveform: generateWaveform(true, kwsState === 'LISTENING' ? 0.3 : 0.7),
+          level: -42 + (Math.random() - 0.5) * 3,
+          waveform: generateWaveform(mic1Active, kwsState === 'LISTENING' ? 0.3 : 0.7),
         },
         mic2: {
           ...prev.mic2,
-          level: -44 + (Math.random() - 0.5) * 4,
-          waveform: generateWaveform(true, kwsState === 'LISTENING' ? 0.28 : 0.68),
+          level: mic2Active ? -44 + (Math.random() - 0.5) * 3 : -78,
+          waveform: generateWaveform(mic2Active, mic2Active ? (kwsState === 'LISTENING' ? 0.28 : 0.68) : 0.05),
         },
         noiseLevel: Math.max(35, Math.min(55, prev.noiseLevel + (Math.random() - 0.5) * 2)),
-        snr: Math.max(12, Math.min(25, prev.snr + (Math.random() - 0.5) * 1)),
         kwsConfidence:
           kwsState === 'LISTENING'
-            ? Math.max(2, Math.min(12, prev.kwsConfidence + (Math.random() - 0.5) * 3))
+            ? Math.max(2, Math.min(12, prev.kwsConfidence + (Math.random() - 0.5) * 2))
             : prev.kwsConfidence,
         status: kwsState,
       }));
     }, 800);
     return () => clearInterval(interval);
-  }, [isDemoMode, kwsState]);
+  }, [isDemoMode, kwsState, mic1Active, mic2Active]);
 
+  // Voice Demo Pipeline Simulation: IDLE -> LISTENING -> CANDIDATE -> VERIFYING (2/3) -> WAKE_DETECTED -> STREAMING -> ASR -> RESPONSE -> LISTENING
   const triggerWakeWord = useCallback(() => {
     if (wakeTimeoutRef.current) clearTimeout(wakeTimeoutRef.current);
     const now = () => new Date().toISOString();
 
     setKwsState('CANDIDATE');
     setMicStatus((p) => ({ ...p, kwsConfidence: 45 }));
-    addLog({ time: now(), event: 'WAKE CANDIDATE', source: 'KWS', status: 'WARNING' });
+    addLog({ time: now(), event: 'WAKE CANDIDATE [INT8 SOFTMAX > 0.40]', source: 'KWS', status: 'WARNING' });
 
     setTimeout(() => {
       setKwsState('VERIFYING');
-      setMicStatus((p) => ({ ...p, kwsConfidence: 72 }));
-    }, 300);
+      setMicStatus((p) => ({ ...p, kwsConfidence: 78 }));
+      addLog({ time: now(), event: 'ACWE VERIFYING: 2/3 WINDOWS CONFIRMED', source: 'KWS', status: 'INFO' });
+    }, 350);
 
     setTimeout(() => {
       setKwsState('WAKE_DETECTED');
       setMicStatus((p) => ({ ...p, kwsConfidence: 96 }));
-      addLog({ time: now(), event: 'WAKE CONFIRMED', source: 'KWS', status: 'SUCCESS', latency: 82 });
-    }, 600);
+      addLog({
+        time: now(),
+        event: `TRINETRA WAKE DETECTED [CONF: 96.2% | ${selectedDevice}]`,
+        source: 'KWS',
+        status: 'SUCCESS',
+        latency: 82,
+      });
+    }, 700);
 
     setTimeout(() => {
       setKwsState('STREAMING');
-      addLog({ time: now(), event: 'AUDIO STREAM START', source: 'NETWORK', status: 'INFO' });
-    }, 1000);
+      addLog({ time: now(), event: 'AUDIO CAPTURE & RING BUFFER READ', source: 'I2S', status: 'INFO' });
+    }, 1100);
 
     setTimeout(() => {
       setKwsState('ASR');
-      addLog({ time: now(), event: 'ASR RECEIVED', source: 'ASR', status: 'INFO', latency: 145 });
-    }, 1500);
+      addLog({ time: now(), event: 'QUERY PARSING & INTENT EXTRACTION', source: 'SLM', status: 'INFO', latency: 145 });
+    }, 1600);
 
     setTimeout(() => {
       setKwsState('RESPONSE');
-      addLog({ time: now(), event: 'RESPONSE READY', source: 'LLM', status: 'SUCCESS' });
-    }, 2000);
+      addLog({
+        time: now(),
+        event: `TELEMETRY GROUNDED RESPONSE DISPATCHED [${selectedDevice}]`,
+        source: 'SLM',
+        status: 'SUCCESS',
+      });
+    }, 2200);
 
     wakeTimeoutRef.current = setTimeout(() => {
       setKwsState('LISTENING');
       setMicStatus((p) => ({ ...p, kwsConfidence: 4 }));
-    }, 4000);
-  }, [addLog]);
+    }, 4500);
+  }, [addLog, selectedDevice]);
 
   useEffect(() => {
     return () => {
@@ -185,6 +256,12 @@ export function useTelemetry(): TelemetryHook {
   }, []);
 
   return {
+    selectedDevice,
+    setSelectedDevice,
+    connectionState,
+    setConnectionState,
+    toggleConnection,
+    deviceProfile: profile,
     telemetry,
     micStatus,
     deviceStatus,
